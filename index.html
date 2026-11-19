@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kam s domškolákem — akce, výlety a online zdroje na každý týden</title>
+<meta name="description" content="Výběr akcí a výletů pro děti 6–15 let v Praze a středních Čechách a bezplatné online materiály na učení. Nový výběr každý týden.">
+<meta property="og:title" content="Kam s domškolákem">
+<meta property="og:description" content="Akce, výlety a online zdroje na každý týden. Pro děti 6–15 let.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="cs_CZ">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: one column, 680px of running text; filter bar sticky; weeks as plain sections, items as rows not cards. */
+:root{
+  --bg:#f4f5f1; --paper:#ffffff; --ink:#1d2622; --muted:#5f6a63; --line:#d9ddd6;
+  --accent:#b8651a; --accent-ink:#8a4a10; --free:#2f6f4e; --free-bg:#e4f0e8; --chip:#e9ece5; --chip-on:#1d2622; --chip-on-ink:#f4f5f1;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif; --body:"Instrument Sans",ui-sans-serif,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#171b19; --paper:#1f2422; --ink:#e8ebe6; --muted:#9ba59e; --line:#333a36;
+  --accent:#e09a4e; --accent-ink:#f0b878; --free:#8fcfa8; --free-bg:#223a2c; --chip:#2a302d; --chip-on:#e8ebe6; --chip-on-ink:#171b19; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#171b19; --paper:#1f2422; --ink:#e8ebe6; --muted:#9ba59e; --line:#333a36;
+  --accent:#e09a4e; --accent-ink:#f0b878; --free:#8fcfa8; --free-bg:#223a2c; --chip:#2a302d; --chip-on:#e8ebe6; --chip-on-ink:#171b19; color-scheme:dark }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:720px;margin:0 auto}
+header{padding-block:40px 20px}
+h1{font-family:var(--display);font-size:clamp(34px,6vw,48px);font-weight:700;line-height:1.02;margin:0 0 10px;letter-spacing:-.01em;text-wrap:balance}
+.lede{color:var(--muted);margin:0;max-width:56ch}
+.lede b{color:var(--ink);font-weight:600}
+.meta{font-size:13px;color:var(--muted);margin-top:12px}
+.filters{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.group{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.group .lab{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+button.chip{font:inherit;font-size:14px;font-weight:500;border:0;background:var(--chip);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button.chip[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink)}
+button.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.week{padding-block:28px 8px}
+h2{font-family:var(--display);font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:-.01em}
+h2 small{font-family:var(--body);font-weight:400;font-size:14px;color:var(--muted);margin-left:8px}
+.item{display:grid;grid-template-columns:92px 1fr;gap:4px 16px;padding-block:16px;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:0}
+.when{font-family:var(--display);font-weight:700;font-size:16px;line-height:1.25;font-variant-numeric:tabular-nums}
+.when span{display:block;font-family:var(--body);font-weight:400;font-size:13px;color:var(--muted)}
+.what{min-width:0}
+.what h3{font-size:17px;font-weight:600;margin:0;line-height:1.3}
+.what h3 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line)}
+.what h3 a:hover{border-color:var(--accent)}
+.why{margin:4px 0 6px;color:var(--ink)}
+.facts{font-size:13.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 12px}
+.facts .free{color:var(--free);background:var(--free-bg);padding:0 7px;border-radius:4px;font-weight:600}
+.facts .age{font-weight:600;color:var(--accent-ink)}
+.empty{padding-block:16px;color:var(--muted);display:none}
+section.week[data-empty="1"] .empty{display:block}
+.perm{margin-top:36px;padding:22px 22px 8px;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+.perm h2{font-size:19px}
+.perm p.sub{margin:0 0 10px;color:var(--muted);font-size:14px}
+.perm ul{list-style:none;padding:0;margin:0}
+.perm li{padding-block:10px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr;gap:2px}
+.perm li:first-child{border-top:0}
+.perm li a{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:1px solid var(--line)}
+.perm li span{font-size:14px;color:var(--muted)}
+footer{margin-top:40px;font-size:13px;color:var(--muted);max-width:60ch}
+footer p{margin:0 0 6px}
+.tabs{display:flex;gap:6px;margin-top:18px}
+.tabs button{font:inherit;font-family:var(--display);font-weight:700;font-size:15px;border:1px solid var(--line);background:var(--paper);color:var(--muted);padding:9px 16px;border-radius:999px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+body[data-view="offline"] .on, body[data-view="online"] .off{display:none}
+body[data-view="online"] .filters #f-reg{display:none}
+#f-subj{display:none} body[data-view="online"] #f-subj{display:flex}
+.perm.on{margin-top:24px;padding-top:18px}
+.perm .tags{font-size:12.5px;color:var(--muted)} .perm .tags b{color:var(--accent-ink);font-weight:600}
+.perm .lede2{margin:0 0 14px;color:var(--muted);max-width:60ch}
+body[data-view="tried"] .on, body[data-view="tried"] .off, body[data-view="tried"] .filters{display:none}
+body[data-view="offline"] .tried, body[data-view="online"] .tried{display:none}
+.tried{padding-top:24px}
+.tried .lede2{margin:0 0 6px;color:var(--muted);max-width:60ch}
+.rev{margin-top:28px;padding:22px;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+.rev h2{font-size:22px;margin:0}
+.rev .where{font-size:13.5px;color:var(--muted);margin:2px 0 12px}
+.rev .note{background:var(--free-bg);color:var(--free);font-weight:600;font-size:14px;padding:8px 12px;border-radius:6px;margin:0 0 12px}
+.rev .note.warn{background:#fbecd9;color:var(--accent-ink)}
+.rev .pics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 16px}
+.rev .pics .ph{aspect-ratio:3/4;border:2px dashed var(--line);border-radius:6px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12.5px;color:var(--muted);padding:8px;background:var(--chip)}
+.rev .pics img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;display:block;background:var(--chip)}
+.rev h3{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);margin:16px 0 4px}
+.rev p{margin:0 0 6px}
+.rev ul{margin:0;padding-left:20px}
+.rev li{margin:0 0 4px}
+@media (max-width:480px){ .rev .pics{grid-template-columns:repeat(3,1fr);gap:5px} }
+@media (max-width:480px){ .item{grid-template-columns:1fr} .when span{display:inline;margin-left:8px} }
+@media (prefers-reduced-motion:no-preference){ .item{transition:opacity .15s} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Kam s domškolákem</h1>
+  <p class="lede"><b>Kam vyrazit a z čeho se učit. Pro děti 6–15 let.</b> Výběr, ne přehled všeho: akce v Praze a středních Čechách, které stojí za cestu, a bezplatné online materiály, které se dají použít hned. Termíny akcí si před odjezdem ověřte u pořadatele.</p>
+  <div class="tabs" id="tabs"><button data-v="offline" aria-pressed="true">Kam vyrazit</button><button data-v="online" aria-pressed="false">Online na učení</button><button data-v="tried" aria-pressed="false">Vyzkoušeno</button></div>
+  <p class="meta off">Období 16. – 29. 11. 2026 · sestaveno 15. 11. 2026</p>
+</header>
+
+<div class="filters" role="group" aria-label="Filtr">
+  <div class="group" id="f-age"><span class="lab">Věk</span>
+    <button class="chip" data-v="all" aria-pressed="true" id="age-all">vše</button>
+    <button class="chip" data-v="6-9" aria-pressed="false" id="age-6">6–9</button>
+    <button class="chip" data-v="10-12" aria-pressed="false" id="age-10">10–12</button>
+    <button class="chip" data-v="13-15" aria-pressed="false" id="age-13">13–15</button>
+  </div>
+  <div class="group" id="f-reg"><span class="lab">Kde</span>
+    <button class="chip" data-v="all" aria-pressed="true" id="reg-all">vše</button>
+    <button class="chip" data-v="P" aria-pressed="false" id="reg-p">Praha</button>
+    <button class="chip" data-v="S" aria-pressed="false" id="reg-s">střední Čechy</button>
+  </div>
+  <div class="group" id="f-subj" aria-label="Předmět"></div>
+  <div class="group" id="f-free">
+    <button class="chip" data-v="free" aria-pressed="false" id="free-only">jen zdarma</button>
+  </div>
+</div>
+
+<div id="weeks" class="off"></div>
+
+<section class="perm off">
+  <h2>Kde mají děti vstup zdarma pořád</h2>
+  <p class="sub">Platí celoročně, bez akce. Dospělí platí, pokud není uvedeno jinak.</p>
+  <ul>
+    <li><a href="https://www.ngprague.cz/o-nas/vstupne-a-objednavky-akci">Národní galerie Praha</a><span>do 15 let včetně, všechny výstavy i expozice</span></li>
+    <li><a href="https://www.nm.cz/navstivte-nas/vstupne">Národní muzeum</a><span>do 15 let, kromě Dětského muzea</span></li>
+    <li><a href="https://www.upm.cz/navstivte-nas/vstupne/">Uměleckoprůmyslové museum</a><span>do 15 let; v historické budově je i samoobslužná pátrací hra</span></li>
+    <li><a href="https://www.muzeumprahy.cz/">Muzeum Prahy, hlavní budova na Florenci</a><span>zdarma pro všechny, nová interaktivní expozice, čtvrtek do 20:00</span></li>
+    <li><a href="https://www.nzm.cz/navstivte-nas/oteviraci-doba/nzm-praha">Národní zemědělské muzeum, Letná</a><span>do 18 let</span></li>
+  </ul>
+</section>
+
+<section class="perm on">
+  <h2>Online na učení</h2>
+  <p class="lede2">Bezplatné weby, aplikace a kanály na YouTube, které se dají používat hned, bez registrace nebo s bezplatným základem. Tipy z archivu autorky. Filtr podle věku a předmětu je nahoře.</p>
+  <ul id="online-list"></ul>
+</section>
+
+<section class="tried" id="tried">
+  <p class="lede2">Prověřená místa v Praze: co tam děti baví, na kolik času počítat, jak na návštěvu navázat doma a praktické věci.</p>
+
+  <article class="rev">
+    <h2>Národní muzeum</h2>
+    <p class="where">Historická a Nová budova, Václavské náměstí 68, Praha 1</p>
+    <p class="note">Děti do 15 let zdarma (s dospělým)</p>
+    <div class="pics">
+      <div class="ph">Foto 1<br>Zázraky evoluce / pravěk</div>
+      <div class="ph">Foto 2<br>Dějiny 20. století</div>
+      <div class="ph">Foto 3<br>budova / výhled</div>
+    </div>
+    <h3>Pro koho</h3>
+    <p>Pro každé dítě, které zajímají zvířata, dinosauři a „jak to bylo dřív". Menší děti chytne příroda a pravěk, školáci od zhruba 10 let ocení i Dějiny 20. století.</p>
+    <h3>Kolik času</h3>
+    <p>Na celou budovu nestačí ani den. Vyberte dvě expozice na jedno dopoledne a přijďte znovu, děti to stejně mají zdarma.</p>
+    <h3>Co děti baví nejvíc</h3>
+    <ul>
+      <li><b>Zázraky evoluce:</b> kostra plejtváka nad hlavou, zvířata bez vitrín, chodbičky pro mnohonožky. V muzejní aplikaci je k expozici rozšířená realita.</li>
+      <li><b>Okna do pravěku:</b> trilobiti, amoniti a fosilie, které se smejí vzít do ruky.</li>
+      <li><b>Muzeum od sklepa po půdu:</b> dětská trasa budovou, zóna Myšárium a papírová pátrací brožura.</li>
+      <li><b>Dějiny 20. století</b> (Nová budova): herna se stavebnicemi, deskovkami a Večerníčky, kde si děti odpočinou od čtení popisek.</li>
+    </ul>
+    <h3>Na co navázat doma</h3>
+    <ul>
+      <li>Pravěk jako časová osa na roli balícího papíru: 1 metr = 100 milionů let. Trilobit, dinosaurus a člověk se na ní najdou až po změření.</li>
+      <li>Třídění živočichů: vystříhat obrázky zvířat a skládat je do skupin podle toho, co mají společné.</li>
+      <li>Na webu Národního muzea jsou zdarma ke stažení pracovní listy a omalovánky k expozicím.</li>
+    </ul>
+    <h3>Prakticky</h3>
+    <ul>
+      <li>Otevřeno denně 10–18 h. Dospělý platí 360 Kč.</li>
+      <li>Dětské muzeum v Nové budově je zvlášť a placené, na časové vstupenky.</li>
+      <li>Budovy spojuje podzemní chodba, ven se nemusí.</li>
+      <li>Ve všední den dopoledne je tu výrazně méně lidí než o víkendu.</li>
+    </ul>
+  </article>
+
+  <article class="rev">
+    <h2>Národní zemědělské muzeum</h2>
+    <p class="where">Kostelní 44, Praha 7 – Letná</p>
+    <p class="note">Děti a mladí do 18 let zdarma</p>
+    <div class="pics">
+      <div class="ph">Foto 1<br>Jede traktor</div>
+      <div class="ph">Foto 2<br>Gastronomie</div>
+      <div class="ph">Foto 3<br>Rybářství</div>
+    </div>
+    <h3>Pro koho</h3>
+    <p>Muzeum, kde se skoro všechno smí vzít do ruky nebo na to vylézt. Nejvíc si ho užijí děti do 10 let, starší najdou témata k přírodopisu, zeměpisu a technice.</p>
+    <h3>Kolik času</h3>
+    <p>Dvě až tři hodiny i s dvorkem. Kdo má málo času, vezme jen Gastronomii a traktory.</p>
+    <h3>Co děti baví nejvíc</h3>
+    <ul>
+      <li><b>Gastronomie:</b> dětský obchod, vaření a poznávání potravin čichem a sluchem, kuchyně ze sbírek muzea.</li>
+      <li><b>Jede traktor:</b> historické traktory, na které se dá vylézt, traktorová odrážedla a trenažér (ten pod dohledem dospělého).</li>
+      <li><b>Rybářství:</b> velká akvária se sladkovodními rybami, model rybniční soustavy a tvořivá herníčka.</li>
+      <li><b>Malý selský dvorek</b> venku s hospodářskými zvířaty a historickým kolotočem, za hezkého počasí střešní zahrada s výhledem na Prahu.</li>
+    </ul>
+    <div class="pics" style="grid-template-columns:1fr;max-width:260px">
+      <div class="ph" style="aspect-ratio:4/3">Foto 4<br>střešní zahrada / dvorek</div>
+    </div>
+    <h3>Na co navázat doma</h3>
+    <ul>
+      <li>Odkud je jídlo: při nákupu hledat na obalech zemi původu a zapisovat ji na mapu.</li>
+      <li>Rybník jako potravní řetězec: kdo co jí, od řas po štiku. Nakreslit ho jako šipky mezi obrázky.</li>
+      <li>Traktor a jednoduché stroje: páka, kolo, ozubený převod. Vyzkoušet si páku s pravítkem a tužkou.</li>
+    </ul>
+    <h3>Prakticky</h3>
+    <ul>
+      <li>Otevřeno út–ne 9–17 h, v pondělí zavřeno. Dospělí platí podle ceníku muzea.</li>
+      <li>Dvorek a střecha jsou venku, v zimě a za deště počítejte jen s vnitřními expozicemi.</li>
+      <li>Dá se spojit s Národním technickým muzeem, je o pár set metrů vedle.</li>
+    </ul>
+  </article>
+
+  <article class="rev">
+    <h2>České muzeum hudby</h2>
+    <p class="where">Karmelitská 2/4, Praha 1 – Malá Strana</p>
+    <p class="note warn">Do 31. 12. 2026 zavřeno kvůli opravě kupole. Děti do 15 let pak opět zdarma.</p>
+    <div class="pics" style="grid-template-columns:repeat(2,1fr);max-width:440px">
+      <div class="ph">Foto 1<br>hra na nástroje</div>
+      <div class="ph">Foto 2<br>dvorana</div>
+    </div>
+    <h3>Pro koho</h3>
+    <p>Pro děti, které rády zkoušejí, jak co zní. Hudební vzdělání není potřeba, hraje se rukama, ne podle not.</p>
+    <h3>Kolik času</h3>
+    <p>Hodina až dvě. Muzeum je menší, dá se spojit s procházkou po Malé Straně nebo na Petřín.</p>
+    <h3>Co děti baví nejvíc</h3>
+    <ul>
+      <li><b>Člověk – nástroj – hudba:</b> hra na varhany, elektrickou kytaru, harfu a bubny, hudební schody, které reagují na krok, a theremin, na který se hraje bez dotyku.</li>
+      <li>Samotná budova: dvorana bývalého barokního kostela s ochozy.</li>
+    </ul>
+    <h3>Na co navázat doma</h3>
+    <ul>
+      <li>Jak vzniká zvuk: krabice s nataženými gumičkami různé tloušťky, sklenice s různým množstvím vody.</li>
+      <li>Třídění nástrojů: strunné, dechové, bicí. Kam patří klavír a kam theremin?</li>
+    </ul>
+    <h3>Prakticky</h3>
+    <ul>
+      <li>Po otevření: po a st–ne 10–18 h, v úterý zavřeno. Dospělý 140 Kč. Ověřte, že se v lednu opravdu otevřelo.</li>
+      <li>Budova je jen částečně bezbariérová (výtah, schodišťová plošina).</li>
+    </ul>
+  </article>
+</section>
+
+<footer>
+  <p>Zdroje akcí: Kudy z nudy, prague.eu, weby pořadatelů a institucí. Každá položka byla načtena přímo ze stránky pořadatele, ale programy se mění. Online materiály: tipy z archivu autorky, každý odkaz ověřen; u částečně placených služeb je to uvedeno.</p>
+  <p>Nezahrnuji kroužky, tábory, pobyty, komunitní školy ani akce pro předškoláky a pro rodiče. Sestavuje Petra Sládková.</p>
+</footer>
+</div>
+
+<script>
+// age: [min,max]; reg: P Praha / S střední Čechy; free: true/false
+const WEEKS = [
+ {title:"Sedmnáctý listopad", range:"16. – 22. 11.", items:[
+  {d:"út 17. 11.",t:"10–18 h",n:"Národní galerie zdarma pro všechny",u:"https://www.ngprague.cz/o-nas/stranka/dny-volneho-vstupu-2026",w:"Státní svátek je den volného vstupu i pro dospělé: sbírkové expozice ve Veletržním, Schwarzenberském, Šternberském a Salmovském paláci a v Anežském klášteře (Staří mistři, středověk, 19. století, První republika, umění po roce 1939, umění Asie). Dočasné výstavy se platí. Dobrý den na První republiku ve Veletržním paláci a pak dolů na Národní.",p:"budovy NGP, Praha 1 a 7",c:"zdarma",a:[6,15],r:"P",f:true},
+  {d:"út 17. 11.",t:"13:30–15 h",n:"Můj svět možností, dílna ve Šternberském paláci",u:"https://www.ngprague.cz/udalost/4943/dilna-pro-deti-8-s-dospelymi-muj-svet-moznosti",w:"Pomalé dívání na staré mistry s otázkami o volbě, odvaze a svobodě, pak vlastní tvorba v ateliéru paláce; vede Jana Domšová. Dítě od 8 let s dospělým. Zdarma, ale rezervace přes GoOut je povinná a závazná (zrušit nejpozději 24 h předem).",p:"Šternberský palác, Hradčanské nám., Praha 1",c:"zdarma, rezervace",a:[8,15],r:"P",f:true},
+  {d:"út 17. 11.",t:"10–18 h",n:"Signal Kids Lab: Svoboda není jen slovo z učebnice",u:"https://www.signalspace.com/cs/akce/signal-kids-lab-x-korzo-narodni-svoboda-neni-jen-slovo-z-ucebnice",w:"Celý den otevřená výtvarná dílna Kolektivu Knedlík o tom, kam mizí voda, rostliny a zvířata (6–15 let). Pro 11–15 let bloky: Svoboda a demokracie, návod k použití (10:30 a 16:00), Spolu bez rozdílů (12:00), živý podcast Děti se ptají o Havlovi (13:15), netradiční hodina dějepisu s Přírodní školou (14:30). Bez rezervace, kapacita 25–60 míst, přijít včas.",p:"Signal Space, Rytířská 10, Praha 1",c:"zdarma",a:[6,15],r:"P",f:true},
+  {d:"út 17. 11.",t:"10–20 h",n:"Korzo Národní: skautský tábor a Od-bojovka",u:"https://www.korzonarodni.cz/cs/program",w:"Dětská část oslav na Národní třídě: skautský tábor s aktivitami pro školáky (10–20 h), herní program Paměti národa Sametová Od-bojovka: Máme holé ruce v Galerii Louvre (10–15 h), maraton psaní dopisů Amnesty v Divadle X10 (11–17 h). Ve 13 h hymna z balkonu Paláce Metro, v 17:11 Modlitba pro Martu. Věk u jednotlivých položek web neuvádí.",p:"Národní třída, Praha 1",c:"zdarma",a:[6,15],r:"P",f:true},
+  {d:"út 17. 11.",t:"10–18 h, poslední prohlídka 17 h",n:"Lichtenštejnský palác otevřený",u:"https://www.kudyznudy.cz/akce/den-otevrenych-dveri-v-lichtenstejnskem-palaci",w:"Poslední letošní den otevřených dveří Úřadu vlády: reprezentační sály na Kampě, zahrada s výhledem na Karlův most a výstava Dary premiérům (130 předmětů z let 2015–2026). Prohlídky po 20 lidech každých 15 minut, bez rezervace. Web Úřadu vlády čas neuvádí, kudyznudy píše 10–18, jiný zdroj 9–16; jděte dopoledne.",p:"U Sovových mlýnů 4, Praha 1, Kampa",c:"zdarma",a:[6,15],r:"P",f:true},
+  {d:"út 17. 11.",t:"10–15 h",n:"Vzdělávání v šlechtických rodinách, mimořádná prohlídka Konopiště",u:"https://www.zamek-konopiste.cz/cs/akce/129994-vzdelavani-v-slechtickych-rodinach",w:"Ke Dni studentstva zámek na jeden den vystaví předměty z depozitářů o tom, jak se doma učily děti z vysoké aristokracie: domácí vzdělávání v nejčistší podobě. Web uvádí ceny 360, 290 a 110 Kč bez rozepsání kategorií; rezervace se doporučuje skupinám (konopiste.rezervace@npu.cz, 317 721 366).",p:"zámek Konopiště, Benešov",c:"360/290/110 Kč",a:[8,15],r:"S",f:false},
+  {d:"so 21. 11.",t:"9–18 h",n:"Apetit piknik v Zemědělském muzeu",u:"https://piknik.apetitonline.cz/",w:"Festival jídla v celém muzeu na Letné; ten den je vstup do všech expozic zdarma i pro dospělé (děti mají zdarma pořád). Dobrá záminka projít Gastronomii, traktory a střešní terasu, jídlo se platí.",p:"Národní zemědělské muzeum, Kostelní 44, Praha 7",c:"zdarma, jídlo se platí",a:[6,15],r:"P",f:true},
+  {d:"so 21. 11.",t:"14 h, asi 2,5 h",n:"Co oči nevidí, rodinná dílna v DOX",u:"https://www.dox.cz/program/co-oci-nevidi",w:"Výtvarná dílna k výstavě Davida Tibeta Hallucinate, Children: skryté příběhy a ztracené sny, práce v ateliéru i přímo ve výstavě. Od 5 let s dospělým; vstupenky na webu DOX.",p:"DOX, Poupětova 1, Praha 7",c:"120 Kč dítě, 160 Kč dospělý",a:[6,12],r:"P",f:false},
+  {d:"so 21. – ne 22. 11.",t:"so 11–18, ne 9/10–17 h",n:"ExGame: počítačové hry od pravěku po současnost",u:"https://www.exgame.cz/",w:"Herní festival v kině v Unhošti: Atari, Amiga, Commodore 64 a ZX Spectrum s turnajem o nejvyšší skóre, rallye a letecký simulátor, VR, pohybové hry na Kinect, LAN koutek až pro čtyři. Všechno se dá hrát. Z Prahy busem 386 ze Zličína (23 min). Pořadatel píše nedělní otevření od 9 h, Kudy z nudy od 10 h.",p:"Kino Unhošť, Pražská ul., Unhošť",c:"150 Kč, rodina 400 Kč",a:[8,15],r:"S",f:false},
+  {d:"od so 21. 11.",t:"denně kromě po 9–16 h",n:"Lidové Vánoce v Polabí",u:"https://www.polabskemuzeum.cz/event/lidove-vanoce-v-polabi-5",w:"Skanzen v Přerově nad Labem začíná vánoční sezonu: devět chalup s adventními a vánočními zvyky konce 19. století (barborky, lucky, mikulášská obchůzka), přes dvacet starých betlémů, výstava cukroví s formičkami, tříkráloví koledníci ve staré škole. O adventních víkendech řemesla; všední den je klidnější. Do 30. 12.",p:"Polabské národopisné muzeum, Přerov nad Labem",c:"80 Kč školák, 160 Kč dospělý, rodina 400 Kč",a:[6,15],r:"S",f:false}
+ ]},
+ {title:"První advent", range:"23. – 29. 11.", items:[
+  {d:"pá 20. – ne 29. 11.",t:"všední dny 8–16, víkend 9–16 h; ne 29. 11. jen 10:30–13:30",n:"Legiovlak na Zličíně a poslední den na hlavním nádraží",u:"https://www.csol.cz/akce/legiovlak-v-praze-7/",w:"Čtrnáct vagonů legionářského ešalonu stojí od pátku 20. do soboty 28. 11. na Zličíně, v neděli 29. 11. se na tři hodiny ukáže na hlavním nádraží a pak z Prahy odjíždí. Ve všední den dopoledne volná prohlídka, komentovaná od 14 h, v sobotu každou celou hodinu; pro neděli ČsOL časy prohlídek neuvádí.",p:"nádraží Praha-Zličín; 29. 11. Praha hlavní nádraží",c:"zdarma",a:[8,15],r:"P",f:true},
+  {d:"út 24. 11.",t:"9–15 h",n:"Den otevřených dveří jaderné fakulty ČVUT: tokamak a lasery",u:"https://fjfi.cvut.cz/cz/den-otevrenych-dveri",w:"FJFI otevírá laboratoře: tokamak GOLEM (9–11 h), detektorové laboratoře CAPADS (10, 12 a 14 h), chemie (10:30), superpočítač HELIOS (14 h), lasery a kosmické technologie celý den. Minipřednášky 9:30–12 h o urychlovačích, metodě Monte Carlo a malých reaktorech. Určeno uchazečům o studium, ale veřejnost nikdo nevyhání; na GOLEM a CAPADS je nutná registrace formulářem na stránce, kapacita 15–20 lidí.",p:"Břehová 7 a Trojanova 13, Praha 1",c:"zdarma",a:[12,15],r:"P",f:true},
+  {d:"od st 25. 11.",t:"běžná otevírací doba UPM, pondělí zavřeno",n:"Móda s rodokmenem: aristokratický oděv 19. století",u:"https://www.upm.cz/moda-s-rodokmenem-aristokraticky-odev-19-stoleti/",w:"Nová výstava UPM: dvorní, plesové a svatební šaty šlechtických rodů, většinou z vídeňských salonů a po náročném restaurování, u mnoha známe nositelku. Do 7. 3. 2027. Děti do 15 let mají v UPM vstup zdarma; k tomu samoobslužná pátrací hra po budově.",p:"UPM, 17. listopadu 2, Praha 1",c:"děti do 15 let zdarma, dospělý dle ceníku UPM",a:[9,15],r:"P",f:false},
+  {d:"čt 26. – so 28. 11.",t:"9–17 h, poslední vstup 16:30",n:"Vánoční výstava ovoce: staré zimní odrůdy jablek a hrušek",u:"https://www.nzm.cz/aktualne-v-muzeu/vystavy/vanocni-vystava-ovoce-stare-zimni-odrudy-jabloni-a-hrusni",w:"Svaz ochránců přírody vystavuje v Zemědělském muzeu stovky starých odrůd, k tomu vánoční zvyky, poradna na určení odrůd (vezměte jablko z vlastní zahrady) a ve čtvrtek ve 12 h komentovaná prohlídka s ochutnávkou. Přednášky pá a so v 10 h, roubování pá 13–16 h jen na registraci e-mailem. Všední den dopoledne klid.",p:"Národní zemědělské muzeum, Kostelní 44, Praha 7",c:"do 18 let zdarma, dospělý 250 Kč",a:[6,15],r:"P",f:false},
+  {d:"so 28. 11.",t:"9–17 h",n:"Den otevřených dveří na Pražském hradě",u:"https://www.kudyznudy.cz/akce/den-otevrenych-dveri-na-prazskem-hrade-2",w:"Jednou za rok zdarma do reprezentačních prostor, které jinak nejsou přístupné: Španělský sál, Rudolfova galerie, Trůnní sál, Habsburský a Zrcadlový salon, už s vánoční výzdobou. Zdarma i Obrazárna, Příběh Pražského hradu, katedrála, Starý královský palác a Zlatá ulička. Fronty bývají, jděte na otevření. Web hrad.cz se nepodařilo načíst, údaje jsou z Kudy z nudy.",p:"Pražský hrad, Praha 1",c:"zdarma",a:[6,15],r:"P",f:true},
+  {d:"so 28. 11.",t:"10–16 h",n:"Vánoce, Vánoce, stromeček svítí! v Muzeu Prahy",u:"https://www.muzeumprahy.cz/vystavy-a-akce/vanoce-vanoce-stromecek-sviti",w:"Adventní dílna papírových ozdob, společné zdobení muzejního stromku a jeho rozsvícení na konci dne, s maskotem Grifem. V hlavní budově je zároveň nová interaktivní expozice, vstup zdarma pořád. Bez rezervace.",p:"Hlavní budova Muzea Prahy, Na Poříčí 52, Praha 8",c:"zdarma",a:[6,12],r:"P",f:true},
+  {d:"so 28. 11.",t:"10 nebo 11–16 h",n:"Advent – design – GASK",u:"https://gask.cz/akce/383858/",w:"Design market v jezuitské koleji s dílnami a dvěma loutkovými pohádkami Divadla b (11:00 Myška a lasičák, 14:00 O Malence), ve 13 h odhalení sochy Rudolfa Valenty v zahradách. Vstup na market zdarma, komentované prohlídky výstav se vstupenkou. GASK píše začátek v 10 h, Kudy z nudy v 11 h.",p:"GASK, Barborská 51–53, Kutná Hora",c:"zdarma, výstavy se platí",a:[6,12],r:"S",f:true},
+  {d:"so 28. – ne 29. 11.",t:"čerti 11–18 h, skleníky 11–16 h",n:"Čerti a Mikuláš v konopišťském sklepení",u:"https://www.zamek-konopiste.cz/cs/akce/40392-certi-a-mikulas-v-konopistskem-sklepeni-a-adventni-skleniky-v-ruzove-zahrade",w:"Čerti v zámeckém sklepení, Mikuláš s anděly na kůru a adventně nazdobené skleníky v Růžové zahradě s prodejem dekorací. Na sklepení je nutná rezervace e-mailem i pro jednotlivce (konopiste.rezervace@npu.cz), zaplní se brzy; skleníky bez rezervace.",p:"zámek Konopiště, Benešov",c:"čerti 280/220/80 Kč, skleníky 100 Kč",a:[6,12],r:"S",f:false},
+  {d:"so 28. – ne 29. 11.",t:"odjezdy PID teprve zveřejní",n:"Čertohráček z Braníku",u:"https://pid.cz/mikulassky-vikend-2026/",w:"Výletní vlak Cyklohráček převlečený za Čertohráček s Mikulášem, andělem a čertem na palubě: v sobotu směr Karlštejn, v neděli do Týnce nad Sázavou, souběžně jezdí historické parní vlaky. Platí běžný tarif PID, bez rezervace. V sobotu na branickém nádraží jízdy historickými autobusy zdarma a modelová železnice s DDM Praha 5. Jízdní řád PID k 15. 11. ještě nezveřejnil.",p:"nádraží Praha-Braník",c:"tarif PID, parní vlak zvlášť",a:[6,12],r:"P",f:false},
+  {d:"od ne 29. 11.",t:"kolem 16:05–16:15",n:"Lampář na Karlově mostě",u:"https://www.kudyznudy.cz/akce/lampar-na-karlove-moste",w:"Každý den do 23. 12. zapaluje lampář v uniformě z konce 19. století dlouhou tyčí 46 plynových luceren na mostě a Křižovnickém náměstí; začíná před kostelem sv. Františka, se setměním. Deset minut, zdarma, v neděli se dá spojit s Legiovlakem na hlavním nádraží. Údaje z Kudy z nudy, stránka prague.eu se nepodařila načíst.",p:"Křižovnické nám. a Karlův most, Praha 1",c:"zdarma",a:[6,15],r:"P",f:true}
+ ]}
+];
+
+const ONLINE = [
+ {n:"Matika.in",u:"https://www.matika.in/cs/",w:"Úlohy podle Hejného metody po ročnících, online i k tisku",a:[6,15],s:"Matematika a logika"},
+ {n:"Khan Academy česky",u:"https://cs.khanacademy.org/",w:"Videa a cvičení",a:[6,19],s:"Matematika a logika"},
+ {n:"H-mat",u:"https://www.h-mat.cz/hejneho-metoda",w:"Hejného metoda: vysvětlení, úlohy, informace pro rodiče",a:[6,15],s:"Matematika a logika"},
+ {n:"Mathesso",u:"https://www.mathesso.cz/",w:"Počítání na principu pexesa; online hra a pravidla zdarma, fyzická hra placená",a:[5,19],s:"Matematika a logika",p:1},
+ {n:"Math-Aids",u:"https://www.math-aids.com/",w:"Generátor pracovních listů z matematiky",a:[6,15],s:"Matematika a logika",l:"anglicky"},
+ {n:"BRLOH",u:"https://brloh.math.muni.cz/",w:"Týmová logická soutěž Masarykovy univerzity",a:[11,15],s:"Matematika a logika"},
+ {n:"Pikomat",u:"https://pikomat.mff.cuni.cz/",w:"Korespondenční seminář Matfyzu, i pro celé rodiny",a:[9,15],s:"Matematika a logika"},
+ {n:"Maze Generator",u:"https://www.mazegenerator.net/",w:"Generátor bludišť k tisku",a:[5,19],s:"Matematika a logika",l:"anglicky"},
+ {n:"Puzzlemaker",u:"https://puzzlemaker.discoveryeducation.com/",w:"Generátor křížovek, osmisměrek a bludišť",a:[6,19],s:"Matematika a logika",l:"anglicky"},
+ {n:"Tomáš Chabada",u:"https://www.youtube.com/@TomasChabada",w:"Výuková videa z matematiky",a:[10,19],s:"Matematika a logika",y:1},
+ {n:"Numberblocks",u:"https://www.youtube.com/channel/UCPlwvN0w4qFSP1FllALB92w",w:"Animovaný seriál o číslech pro malé děti",a:[4,8],s:"Matematika a logika",y:1,l:"anglicky"},
+ {n:"Gramar.in",u:"https://www.gramar.in/cs/",w:"Krátké úlohy z češtiny po ročnících, sourozenec Matika.in",a:[6,15],s:"Čeština a čtení"},
+ {n:"Školákov",u:"https://skolakov.eu/",w:"Interaktivní procvičování pro 1. stupeň",a:[6,11],s:"Čeština a čtení"},
+ {n:"Pravopisně.cz",u:"https://www.pravopisne.cz/",w:"Diktáty, cvičení a testy; profil zdarma, prémiové funkce placené",a:[8,19],s:"Čeština a čtení",p:1},
+ {n:"Eductify – Česká gramatika",u:"https://www.eductify.com/cs/ceska-gramatika",w:"Testy z gramatiky a pravopisu; vyzkoušení zdarma, plný přístup zřejmě placený",a:[8,19],s:"Čeština a čtení",p:1},
+ {n:"Nechybujte (Lingea)",u:"https://www.nechybujte.cz/",w:"Slovníky, obrázkový slovník, synonyma, gramatika",a:[8,19],s:"Čeština a čtení"},
+ {n:"Čtení pomáhá",u:"https://www.ctenipomaha.cz/",w:"Test po přečtení knihy, kredit 50 Kč na vybranou charitu; nutné přihlášení",a:[6,19],s:"Čeština a čtení"},
+ {n:"Krajánek",u:"https://www.krajanekvesvete.cz/flipbook-archiv/",w:"Měsíčník pro česky mluvící děti v zahraničí; všechna čísla k prolistování bez registrace",a:[5,12],s:"Čeština a čtení"},
+ {n:"mujRozhlas",u:"https://www.mujrozhlas.cz/",w:"Radioknihy, četby a pořady Českého rozhlasu",a:[6,19],s:"Čeština a čtení"},
+ {n:"Czech Step by Step",u:"https://www.czechstepbystep.cz/jazykove-hry-a-aktivity",w:"Tipy na jazykové hry a aktivity",a:[8,19],s:"Čeština a čtení",p:1},
+ {n:"English in Levels",u:"https://www.englishinlevels.com/",w:"Texty a poslechy seřazené podle úrovně",a:[10,19],s:"Jazyky",l:"anglicky"},
+ {n:"News in Levels",u:"https://www.newsinlevels.com/",w:"Zprávy ve třech úrovních obtížnosti",a:[10,19],s:"Jazyky",l:"anglicky"},
+ {n:"Spanish in Levels",u:"https://spanishinlevels.com/",w:"Texty a poslechy podle úrovně",a:[10,19],s:"Jazyky",l:"španělsky"},
+ {n:"Duolingo",u:"https://www.duolingo.com/",w:"Jazyková aplikace; zdarma s reklamou, bez reklam placená",a:[8,19],s:"Jazyky",p:1},
+ {n:"Duolingo ABC",u:"https://abc.duolingo.com/",w:"Čtení a písmena v angličtině pro malé děti",a:[3,8],s:"Jazyky",l:"anglicky"},
+ {n:"Mondly",u:"https://cs.mondly.com/",w:"Jazyková aplikace; bezplatný základ je omezený",a:[10,19],s:"Jazyky",p:1},
+ {n:"Reading Coach",u:"https://coach.microsoft.com/",w:"Kontrola anglické výslovnosti při čtení; účet Microsoft",a:[6,19],s:"Jazyky",l:"anglicky"},
+ {n:"Helen Doron Song Club",u:"https://www.youtube.com/HelenDoronSongClub",w:"Písničky pro výuku angličtiny u malých dětí",a:[3,8],s:"Jazyky",y:1,l:"anglicky"},
+ {n:"Učíme se venku",u:"https://ucimesevenku.cz/",w:"Lekce a startovací balíček ke stažení zdarma; e-sady a kurzy placené",a:[4,11],s:"Příroda a věda",p:1},
+ {n:"Minivěda",u:"https://miniveda.cz/pro-rodice/",w:"Brožurky jednoduchých pokusů; některé ke stažení zdarma",a:[4,8],s:"Příroda a věda",p:1},
+ {n:"TheDadLab",u:"https://thedadlab.com/",w:"Zábavné pokusy na doma",a:[4,10],s:"Příroda a věda",l:"anglicky"},
+ {n:"Heuréka (MFF UK)",u:"https://kdf.mff.cuni.cz/heureka/ke-stazeni/metodiky-fyzikalni/",w:"Fyzikální materiály a metodiky ke stažení",a:[11,19],s:"Příroda a věda"},
+ {n:"Pladias",u:"https://pladias.cz/",w:"Databáze české flóry a vegetace",a:[12,19],s:"Příroda a věda"},
+ {n:"National Geographic Kids",u:"https://kids.nationalgeographic.com/",w:"Články, videa a hry o přírodě",a:[6,12],s:"Příroda a věda",l:"anglicky"},
+ {n:"Astro.cz",u:"https://www.astro.cz/",w:"Co je vidět na obloze, úkazy, články",a:[10,19],s:"Příroda a věda"},
+ {n:"Astro-novinky",u:"https://www.astro-novinky.eu/",w:"Zprávy o úkazech, vesmíru a kosmonautice",a:[10,19],s:"Příroda a věda"},
+ {n:"Heavens-Above",u:"https://www.heavens-above.com/",w:"Přelety ISS a družic podle vaší polohy",a:[8,19],s:"Příroda a věda",l:"anglicky"},
+ {n:"Stellarium",u:"https://stellarium-labs.com/",w:"Planetárium v mobilu i počítači; desktopová verze a základní mobilní zdarma, verze Plus placená",a:[8,19],s:"Příroda a věda",p:1},
+ {n:"NASA",u:"https://www.nasa.gov/",w:"Fáze Měsíce, zatmění, aktivity k misi Artemis",a:[8,19],s:"Příroda a věda",l:"anglicky"},
+ {n:"Virtuální prohlídky ČEZ",u:"http://virtualniprohlidky.cez.cz/cez-temelin/",w:"Virtuální prohlídka Temelína",a:[10,19],s:"Příroda a věda"},
+ {n:"Vědecké kladivo",u:"https://www.youtube.com/@VedeckeKladivo",w:"Populárně naučná videa o fyzice, chemii a vědě vůbec",a:[10,19],s:"Příroda a věda",y:1},
+ {n:"KC science",u:"https://www.youtube.com/@kcscience5378",w:"Krátká přírodopisná a chemická videa od učitelky Kateřiny Čihákové",a:[11,15],s:"Příroda a věda",y:1},
+ {n:"Nezkreslená věda (Otevřená věda AV ČR)",u:"https://www.youtube.com/@OtevrenaVeda",w:"Animované díly o vědě od Akademie věd",a:[12,19],s:"Příroda a věda",y:1},
+ {n:"Living Zoology",u:"https://www.youtube.com/@LivingZoology",w:"Přírodopisné dokumenty české dvojice, anglicky",a:[8,19],s:"Příroda a věda",y:1,l:"anglicky"},
+ {n:"Science ON",u:"https://www.youtube.com/@ScienceONczech",w:"Popularizace vědy, playlisty k zeměpisu a matematice, živé streamy",a:[12,19],s:"Příroda a věda",y:1},
+ {n:"BBC Earth / BBC Earth Lab",u:"https://www.youtube.com/@bbcearth",w:"Přírodopisné klipy a jednoduché pokusy",a:[6,19],s:"Příroda a věda",y:1,l:"anglicky"},
+ {n:"Garden Nature (Petr Curko)",u:"https://www.youtube.com/@anubiskt",w:"Videa o přírodě a fyzikálních jevech",a:[10,19],s:"Příroda a věda",y:1},
+ {n:"Fyzika o páté (FZÚ AV ČR)",u:"https://www.youtube.com/@fzuavcr",w:"Záznamy populárních přednášek Fyzikálního ústavu",a:[15,19],s:"Příroda a věda",y:1},
+ {n:"Flightradar24",u:"https://www.flightradar24.com/",w:"Letový provoz po celém světě; zdarma jen omezeně, po 30 minutách se odpojí",a:[8,19],s:"Zeměpis a dějepis",p:1,l:"anglicky"},
+ {n:"GeoGuessr",u:"https://www.geoguessr.com/",w:"Hádání místa podle Street View; zdarma jen omezeně",a:[10,19],s:"Zeměpis a dějepis",p:1,l:"anglicky"},
+ {n:"Old Maps Online",u:"https://www.oldmapsonline.org/cs",w:"Interaktivní historické mapy",a:[10,19],s:"Zeměpis a dějepis"},
+ {n:"Vivid Maps",u:"https://vividmaps.com/",w:"Tematické mapy a vizualizace",a:[10,19],s:"Zeměpis a dějepis",l:"anglicky"},
+ {n:"Školní mapy",u:"https://skolnimapy.cz/",w:"Mapy a materiály ke školním atlasům ke stažení; jen pro osobní a výukové účely",a:[6,19],s:"Zeměpis a dějepis"},
+ {n:"Dějepis+",u:"https://dejepisplus.npi.cz/metodiky/",w:"Badatelsky orientovaný dějepis, metodiky",a:[12,19],s:"Zeměpis a dějepis"},
+ {n:"History Max",u:"https://www.youtube.com/@HistoryMax2018",w:"Videa o historii",a:[12,19],s:"Zeměpis a dějepis",y:1},
+ {n:"Dejepis Inak",u:"https://www.youtube.com/@DejepisInak",w:"Slovenský kanál o dějinách",a:[12,19],s:"Zeměpis a dějepis",y:1,l:"slovensky"},
+ {n:"Slavné dny",u:"https://www.youtube.com/@slavnedny5376",w:"Krátké dokumenty o významných dnech historie",a:[10,19],s:"Zeměpis a dějepis",y:1},
+ {n:"Životy slavných",u:"https://www.youtube.com/@Životyslavných",w:"Krátké životopisy historických osobností",a:[10,19],s:"Zeměpis a dějepis",y:1},
+ {n:"Historický cestovatel",u:"https://www.youtube.com/@HistorickýCestovatel",w:"Výpravy po historických místech",a:[10,19],s:"Zeměpis a dějepis",y:1},
+ {n:"Scratch",u:"https://scratch.mit.edu/",w:"Blokové programování",a:[8,16],s:"Technika, AI a média"},
+ {n:"Tinkercad",u:"https://www.tinkercad.com/",w:"Bezplatná aplikace pro 3D modelování a psaní kódu",a:[8,19],s:"Technika, AI a média"},
+ {n:"AI dětem",u:"https://aidetem.cz/",w:"Materiály, příručky a databáze nástrojů zdarma bez registrace; školení placená",a:[8,19],s:"Technika, AI a média",p:1},
+ {n:"Elements of AI",u:"https://www.elementsofai.cz/",w:"Online kurz o AI v češtině",a:[15,19],s:"Technika, AI a média"},
+ {n:"JSNS – Jeden svět na školách",u:"https://www.jsns.cz/",w:"Dokumentární filmy a lekce zdarma, cílené na školy; nutná registrace",a:[12,19],s:"Technika, AI a média"},
+ {n:"E-Bezpečí",u:"https://www.e-bezpeci.cz/",w:"Bezpečí na internetu; materiály ke stažení zdarma, videopřednášky pro rodiče placené",a:[10,19],s:"Technika, AI a média",p:1},
+ {n:"Skoala",u:"https://skoala.cz/",w:"Videa, hry a kvízy o financích; bezplatná registrace",a:[8,19],s:"Technika, AI a média"},
+ {n:"Google Arts &amp; Culture",u:"https://artsandculture.google.com/",w:"Virtuální prohlídky galerií a muzeí",a:[8,19],s:"Tvoření a hry"},
+ {n:"Super Coloring",u:"https://www.supercoloring.com/cs/sections/omalovanky",w:"Omalovánky k tisku",a:[4,10],s:"Tvoření a hry"},
+ {n:"Red Ted Art",u:"https://www.redtedart.com/",w:"Návody na tvoření a šablony k tisku",a:[4,10],s:"Tvoření a hry",l:"anglicky"},
+ {n:"Skribbl",u:"https://skribbl.io/",w:"Online hra pro více hráčů: kreslení a hádání slov",a:[8,19],s:"Tvoření a hry"},
+ {n:"Umíme to",u:"https://www.umimeto.org/",w:"Procvičování od 1. třídy po maturitu; procházení zdarma, neomezené procvičování za licenci",a:[6,19],s:"Všechny předměty",p:1},
+ {n:"ČT edu",u:"https://edu.ceskatelevize.cz/",w:"Krátká výuková videa ze všech předmětů",a:[6,19],s:"Všechny předměty"},
+ {n:"Déčko",u:"https://decko.ceskatelevize.cz/",w:"Naučné pořady, hry, adventní kalendář",a:[4,12],s:"Všechny předměty"},
+ {n:"Realisticky.cz",u:"http://www.realisticky.cz/",w:"Online učebnice matematiky a fyziky od učitele Martina Krynického",a:[12,19],s:"Matematika a logika"},
+ {n:"Nabla",u:"https://www.nabla.cz/",w:"Srozumitelná vysvětlení učiva ZŠ a SŠ",a:[11,19],s:"Všechny předměty"},
+ {n:"TAU Cermat",u:"https://tau.cermat.gov.cz/",w:"Oficiální aplikace na procvičování k přijímačkám a maturitě",a:[10,19],s:"Všechny předměty"},
+ {n:"Liveworksheets",u:"https://www.liveworksheets.com/",w:"Interaktivní pracovní listy z různých okruhů",a:[6,15],s:"Všechny předměty"},
+ {n:"LearningApps",u:"https://learningapps.org/",w:"Interaktivní cvičení, dají se tvořit i vlastní",a:[6,19],s:"Všechny předměty"},
+ {n:"Education.com",u:"https://www.education.com/",w:"Pracovní listy; bez předplatného omezený počet stažení",a:[4,11],s:"Všechny předměty",p:1,l:"anglicky"},
+ {n:"Školáci.com",u:"https://www.skolaci.com/ke-stazeni",w:"Pracovní listy, e-knihy a omalovánky ke stažení",a:[4,15],s:"Všechny předměty"},
+ {n:"MojeEdu (dříve DUMy)",u:"https://mojeedu.npi.cz/cela-nabidka?types=teachingMaterial",w:"Přes 1 900 výukových materiálů, kurzů a webinářů od NPI ČR",a:[6,19],s:"Všechny předměty"}
+];
+const state={age:"all",reg:"all",free:false};
+try{ const s=JSON.parse(localStorage.getItem("kam-filter")||"{}"); Object.assign(state,s);}catch(e){}
+
+function fits(it){
+  if(state.free && !it.f) return false;
+  if(state.reg!=="all" && it.r!==state.reg) return false;
+  if(state.age!=="all"){ const [lo,hi]=state.age.split("-").map(Number); if(it.a[1]<lo||it.a[0]>hi) return false; }
+  return true;
+}
+function ageLabel(a){ return a[0]<=6&&a[1]>=15 ? "6–15" : a[0]+"–"+a[1]+" let"; }
+function render(){
+  const root=document.getElementById("weeks"); root.innerHTML="";
+  WEEKS.forEach(wk=>{
+    const sec=document.createElement("section"); sec.className="week";
+    const vis=wk.items.filter(fits);
+    sec.dataset.empty=vis.length?"0":"1";
+    sec.innerHTML=`<h2>${wk.title}<small>${wk.range}</small></h2>`;
+    vis.forEach(it=>{
+      const el=document.createElement("div"); el.className="item";
+      el.innerHTML=`<div class="when">${it.d}${it.t?`<span>${it.t}</span>`:""}</div>
+        <div class="what"><h3><a href="${it.u}" target="_blank" rel="noopener">${it.n}</a></h3>
+        <p class="why">${it.w}</p>
+        <div class="facts"><span>${it.p}</span><span class="${it.f?"free":""}">${it.c}</span><span class="age">${ageLabel(it.a)}</span></div></div>`;
+      sec.appendChild(el);
+    });
+    const e=document.createElement("p"); e.className="empty"; e.textContent="Pro tenhle filtr tu tento týden nic není."; sec.appendChild(e);
+    root.appendChild(sec);
+  });
+  document.querySelectorAll("#f-age .chip").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===state.age)));
+  document.querySelectorAll("#f-reg .chip").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===state.reg)));
+  document.getElementById("free-only").setAttribute("aria-pressed",String(state.free));
+  try{ localStorage.setItem("kam-filter",JSON.stringify(state)); }catch(e){}
+}
+document.getElementById("f-age").addEventListener("click",e=>{const b=e.target.closest(".chip"); if(b){state.age=b.dataset.v; render();}});
+document.getElementById("f-reg").addEventListener("click",e=>{const b=e.target.closest(".chip"); if(b){state.reg=b.dataset.v; render();}});
+document.getElementById("free-only").addEventListener("click",()=>{state.free=!state.free; render();});
+render();
+let subj="vše", view="offline";
+try{ view=localStorage.getItem("kam-view")||"offline"; }catch(e){}
+const SUBJ=["vše",...new Set(ONLINE.map(o=>o.s))];
+const onUl=document.getElementById("online-list");
+function onAge(a){ return a[1]>=19 ? "od "+a[0]+" let" : a[0]+"–"+a[1]+" let"; }
+function renderOnline(){
+  document.body.dataset.view=view;
+  document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===view)));
+  document.getElementById("f-subj").innerHTML='<span class="lab">Předmět</span>'+SUBJ.map(s=>`<button class="chip" data-v="${s}" aria-pressed="${s===subj}">${s}</button>`).join("");
+  const vis=ONLINE.filter(o=>{
+    if(subj!=="vše"&&o.s!==subj) return false;
+    if(state.free&&o.p) return false;
+    if(state.age!=="all"){ const [lo,hi]=state.age.split("-").map(Number); if(o.a[1]<lo||o.a[0]>hi) return false; }
+    return true; });
+  onUl.innerHTML=vis.map(o=>`<li><a href="${o.u}" target="_blank" rel="noopener">${o.n}</a><span>${o.w}</span><span class="tags"><b>${onAge(o.a)}</b> · ${o.s}${o.y?" · YouTube":""}${o.l?" · "+o.l:""}${o.p?" · zdarma jen část":""}</span></li>`).join("") || `<li><span>Pro tenhle filtr tu nic není.</span></li>`;
+}
+document.getElementById("f-subj").addEventListener("click",e=>{const b=e.target.closest(".chip"); if(b){subj=b.dataset.v; renderOnline();}});
+document.getElementById("tabs").addEventListener("click",e=>{const b=e.target.closest("button"); if(b){view=b.dataset.v; try{localStorage.setItem("kam-view",view);}catch(e){} renderOnline(); window.scrollTo(0,0);}});
+document.getElementById("f-age").addEventListener("click",renderOnline);
+document.getElementById("free-only").addEventListener("click",renderOnline);
+renderOnline();
+</script>
+</body>
+</html>
