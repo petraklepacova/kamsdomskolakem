@@ -376,11 +376,29 @@ function fits(it){
   return true;
 }
 function ageLabel(a){ return a[0]<=6&&a[1]>=15 ? "6–15" : a[0]+"–"+a[1]+" let"; }
+// Proběhlé akce se skrývají samy: konec se čte z posledního data v poli d (např. "so 21. – ne 22. 11."),
+// u položek bez koncového data ("od so 21. 11.", "celý týden") platí konec týdne.
+function lastDate(str){
+  const m=[...String(str||"").matchAll(/(\d{1,2})\.\s*(\d{1,2})\./g)];
+  if(!m.length) return null;
+  const now=new Date(), mo=Number(m[m.length-1][2])-1, day=Number(m[m.length-1][1]);
+  let y=now.getFullYear();
+  if(mo-now.getMonth()>6) y--; else if(now.getMonth()-mo>6) y++;
+  return new Date(y,mo,day);
+}
+function isPast(it,wkEnd){
+  const today=new Date(); today.setHours(0,0,0,0);
+  const end=/^\s*od\s/.test(it.d) ? wkEnd : (lastDate(it.d)||wkEnd);
+  return !!end && end<today;
+}
 function render(){
   const root=document.getElementById("weeks"); root.innerHTML="";
   WEEKS.forEach(wk=>{
+    const wkEnd=lastDate(wk.range);
+    const live=wk.items.filter(it=>!isPast(it,wkEnd));
+    if(!live.length) return;
     const sec=document.createElement("section"); sec.className="week";
-    const vis=wk.items.filter(fits);
+    const vis=live.filter(fits);
     sec.dataset.empty=vis.length?"0":"1";
     sec.innerHTML=`<h2>${wk.title}<small>${wk.range}</small></h2>`;
     vis.forEach(it=>{
