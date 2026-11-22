@@ -101,7 +101,7 @@ body[data-view="offline"] .tried, body[data-view="online"] .tried{display:none}
 <header>
   <h1>Kam s domškolákem</h1>
   <p class="lede"><b>Kam vyrazit a z čeho se učit. Pro děti 6–15 let.</b> Výběr, ne přehled všeho: akce v Praze a středních Čechách, které stojí za cestu, a bezplatné online materiály, které se dají použít hned. Termíny akcí si před odjezdem ověřte u pořadatele.</p>
-  <div class="tabs" id="tabs"><button data-v="offline" aria-pressed="true">Kam vyrazit</button><button data-v="online" aria-pressed="false">Online na učení</button><button data-v="tried" aria-pressed="false">Vyzkoušeno</button></div>
+  <div class="tabs" id="tabs"><button data-v="offline" aria-pressed="true">Kam vyrazit</button><button data-v="online" aria-pressed="false">Online na učení</button><button data-v="tried" aria-pressed="false" hidden>Vyzkoušeno</button></div>
   <p class="meta off">Období 23. 11. – 6. 12. 2026 · sestaveno 21. 11. 2026</p>
 </header>
 
@@ -525,6 +525,8 @@ document.getElementById("free-only").addEventListener("click",()=>{state.free=!s
 render();
 let subj="vše", view="offline";
 try{ view=localStorage.getItem("kam-view")||"offline"; }catch(e){}
+// Rubrika „Vyzkoušeno" je dočasně vypnutá (tlačítko má atribut hidden); obsah v souboru zůstává.
+if(view==="tried") view="offline";
 const SUBJ=["vše",...new Set(ONLINE.map(o=>o.s))];
 const onUl=document.getElementById("online-list");
 function onAge(a){ return a[1]>=19 ? "od "+a[0]+" let" : a[0]+"–"+a[1]+" let"; }
