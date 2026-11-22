@@ -493,6 +493,8 @@ function isPast(it,wkEnd){
 }
 function render(){
   const root=document.getElementById("weeks"); root.innerHTML="";
+  // Nadpis týdne se bere podle pořadí mezi zobrazenými týdny, ne z pole title.
+  const LABELS=["Tento týden","Příští týden"]; let shown=0;
   WEEKS.forEach(wk=>{
     const wkEnd=lastDate(wk.range);
     const live=wk.items.filter(it=>!isPast(it,wkEnd));
@@ -500,7 +502,7 @@ function render(){
     const sec=document.createElement("section"); sec.className="week";
     const vis=live.filter(fits);
     sec.dataset.empty=vis.length?"0":"1";
-    sec.innerHTML=`<h2>${wk.title}<small>${wk.range}</small></h2>`;
+    sec.innerHTML=`<h2>${LABELS[shown]||wk.title}<small>${wk.range}</small></h2>`; shown++;
     vis.forEach(it=>{
       const el=document.createElement("div"); el.className="item";
       el.innerHTML=`<div class="when">${it.d}${it.t?`<span>${it.t}</span>`:""}</div>
