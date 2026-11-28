@@ -70,13 +70,13 @@ section.week[data-empty="1"] .empty{display:block}
 .perm li:first-child{border-top:0}
 .perm li a{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:1px solid var(--line)}
 .perm li span{font-size:14px;color:var(--muted)}
-.signup{margin:20px 0 0;padding:16px 18px;background:var(--paper);border:1px solid var(--line);border-radius:10px;max-width:60ch}
-.signup p{margin:0 0 10px;font-size:15px;color:var(--muted)}
+.signup{margin:14px 0 0;padding:10px 12px;background:var(--paper);border:1px solid var(--line);border-radius:10px;max-width:60ch}
+.signup p{margin:0 0 8px;font-size:14px;color:var(--muted)}
 .signup p b{color:var(--ink);font-weight:600}
 .signup .row{display:flex;gap:8px;flex-wrap:wrap}
-.signup input{flex:1 1 200px;min-width:0;font:inherit;font-size:16px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.signup input{flex:1 1 130px;min-width:0;font:inherit;font-size:16px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
 .signup input:focus-visible,.signup button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.signup button{font:inherit;font-weight:600;font-size:15px;border:0;border-radius:8px;padding:9px 16px;background:var(--chip-on);color:var(--chip-on-ink);cursor:pointer}
+.signup button{font:inherit;font-weight:600;font-size:14px;border:0;border-radius:8px;padding:8px 12px;background:var(--chip-on);color:var(--chip-on-ink);cursor:pointer}
 .signup p.small{margin:8px 0 0;font-size:13px}
 .report{margin:36px 0 0;padding:16px 22px;background:var(--paper);border:1px solid var(--line);border-radius:10px;font-size:15px;color:var(--muted)}
 .report b{color:var(--ink);font-weight:600}
@@ -118,12 +118,11 @@ body[data-view="offline"] .tried, body[data-view="online"] .tried{display:none}
 <div class="wrap">
 <header>
   <h1>Kam s domškolákem</h1>
-  <p class="lede"><b>Kam vyrazit a z čeho se učit. Pro děti 6–15 let.</b> Výběr, ne přehled všeho: akce v Praze a středních Čechách, které stojí za cestu, a bezplatné online materiály, které se dají použít hned. Termíny akcí si před odjezdem ověřte u pořadatele.</p>
+  <p class="lede">Pro děti 6–15 let · Praha a střední Čechy. Termíny si před cestou ověřte u pořadatele.</p>
   <!-- Přihlášení k pondělnímu e-mailu (Ecomail) – při aktualizaci obsahu nemazat -->
   <form class="signup" method="post" action="https://kamsdomskolakem.ecomailapp.cz/public/subscribe/1/43c2cd496486bcc27217c3e790fb4088?source=web" target="_blank">
-    <p><b>Dám vám vědět, když na web přidám akce na další týden.</b> Přijde vám e-mail s odkazem a s tím, co je tu nového: přidaný kraj, nová záložka. Jednou týdně, víc ne.</p>
+    <p><b>Dám vám vědět, když na web přidám akce na další týden.</b> Jednou týdně, víc ne.</p>
     <div class="row"><input type="email" name="email" required autocomplete="email" placeholder="váš e-mail" aria-label="Váš e-mail"><button type="submit">Chci upozornění</button></div>
-    <p class="small">Odhlásíte se jedním kliknutím.</p>
   </form>
   <div class="tabs" id="tabs"><button data-v="offline" aria-pressed="true">Kam vyrazit</button><button data-v="online" aria-pressed="false">Online na učení</button><button data-v="tried" aria-pressed="false" hidden>Vyzkoušeno</button></div>
   <p class="meta off">Období 23. 11. – 6. 12. 2026 · sestaveno 21. 11. 2026</p>
